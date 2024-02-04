@@ -45,8 +45,8 @@ const TodoList = () => {
     setEdit((prev) => (prev ? { ...prev, title: e.target.value } : null));
   };
 
-  const handleDeleteTodo = (todoId: number) => {
-    dispatch(deleteTodoAsync(todoId));
+  const handleDeleteTodo = (todo: Todo) => {
+    dispatch(deleteTodoAsync(todo.id));
   };
 
   return (
@@ -74,7 +74,7 @@ const TodoList = () => {
                 {todo.completed ? "Mark Incomplete" : "Mark Complete"}
               </button>
               <button onClick={() => handleEditTodo(todo)}>Edit</button>
-              <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+              <button onClick={() => handleDeleteTodo(todo)}>Delete</button>
             </li>
           ))}
         </ul>
