@@ -21,7 +21,7 @@ const TodoList = () => {
 
   const handleAddTodo = () => {
     if (newTodo) {
-      dispatch(addTodoAsync(newTodo));
+      dispatch(addTodoAsync(newTodo.trim()));
       setNewTodo("");
     }
   };
@@ -60,30 +60,36 @@ const TodoList = () => {
       />
       <button onClick={handleAddTodo}>Add Todo</button>
       <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            {todo === edit ? (
-              <>
-                <input
-                  type="text"
-                  value={edit.title}
-                  onChange={handleEditChange}
-                />
-                <button onClick={handleUpdateTodo}>Update Todo</button>
-                <button onClick={() => setEdit(null)}>Cancel</button>
-              </>
-            ) : (
-              <>
-                {todo.title}
-                <button onClick={() => handleToggleTodo(todo)}>
-                  {todo.completed ? "Mark Incomplete" : "Mark Complete"}
-                </button>
-                <button onClick={() => handleEditTodo(todo)}>Edit</button>
-                <button onClick={() => handleDeleteTodo(todo)}>Delete</button>
-              </>
-            )}
-          </li>
-        ))}
+        {todos.map((todo) => {
+          if (!todo.completed) {
+            return (
+              <li key={todo.id}>
+                {todo === edit ? (
+                  <>
+                    <input
+                      type="text"
+                      value={edit.title}
+                      onChange={handleEditChange}
+                    />
+                    <button onClick={handleUpdateTodo}>Update Todo</button>
+                    <button onClick={() => setEdit(null)}>Cancel</button>
+                  </>
+                ) : (
+                  <>
+                    {todo.title}
+                    <button onClick={() => handleToggleTodo(todo)}>
+                      {todo.completed ? "Mark Incomplete" : "Mark Complete"}
+                    </button>
+                    <button onClick={() => handleEditTodo(todo)}>Edit</button>
+                    <button onClick={() => handleDeleteTodo(todo)}>
+                      Delete
+                    </button>
+                  </>
+                )}
+              </li>
+            );
+          }
+        })}
       </ul>
       <Link to="/completed">View Completed Todos</Link>
     </div>
