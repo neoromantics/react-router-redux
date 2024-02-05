@@ -3,7 +3,12 @@
     {
       "id": "7df0",
       "title": "MAKE THE BED!",
-      "completed": true
+      "completed": false
+    },
+    {
+      "id": "5f2f",
+      "title": "Do the dishes",
+      "completed": false
     }
   ]
 }

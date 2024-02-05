@@ -46,7 +46,7 @@ const TodoList = () => {
   };
 
   const handleDeleteTodo = (todo: Todo) => {
-    dispatch(deleteTodoAsync(todo.id));
+    dispatch(deleteTodoAsync(todo));
   };
 
   return (

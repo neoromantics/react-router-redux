@@ -20,7 +20,6 @@ const initialState: TodosState = {
   error: null,
 };
 
-// Async thunks for CRUD operations
 export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
   const response = await axios.get<Todo[]>("http://localhost:5001/todos");
   return response.data;
@@ -61,9 +60,9 @@ export const updateTodoAsync = createAsyncThunk(
 
 export const deleteTodoAsync = createAsyncThunk(
   "todos/deleteTodo",
-  async (id: number) => {
-    await axios.delete(`http://localhost:5001/todos/${id}`);
-    return id;
+  async (todo: Todo) => {
+    await axios.delete(`http://localhost:5001/todos/${todo.id}`);
+    return todo.id;
   }
 );
 
@@ -75,7 +74,6 @@ export const todosSlice = createSlice({
     builder
       .addCase(fetchTodos.pending, (state) => {
         state.status = "loading";
-        state.error = null;
       })
       .addCase(fetchTodos.fulfilled, (state, action: PayloadAction<Todo[]>) => {
         state.status = "idle";
@@ -85,8 +83,19 @@ export const todosSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch todos";
       })
+      .addCase(addTodoAsync.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(addTodoAsync.fulfilled, (state, action: PayloadAction<Todo>) => {
         state.todos.push(action.payload);
+        state.status = "idle";
+      })
+      .addCase(addTodoAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to add todo";
+      })
+      .addCase(toggleTodoAsync.pending, (state) => {
+        state.status = "loading";
       })
       .addCase(
         toggleTodoAsync.fulfilled,
@@ -95,10 +104,18 @@ export const todosSlice = createSlice({
             (todo) => todo.id === action.payload.id
           );
           if (index !== -1) {
-            state.todos[index] = action.payload;
+            state.todos[index].completed = action.payload.completed;
           }
+          state.status = "idle";
         }
       )
+      .addCase(toggleTodoAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to toggle todo";
+      })
+      .addCase(updateTodoAsync.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(
         updateTodoAsync.fulfilled,
         (state, action: PayloadAction<Todo>) => {
@@ -108,16 +125,29 @@ export const todosSlice = createSlice({
           if (index !== -1) {
             state.todos[index] = action.payload;
           }
+          state.status = "idle";
         }
       )
+      .addCase(updateTodoAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to update todo";
+      })
+      .addCase(deleteTodoAsync.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(
         deleteTodoAsync.fulfilled,
         (state, action: PayloadAction<number>) => {
           state.todos = state.todos.filter(
             (todo) => todo.id !== action.payload
           );
+          state.status = "idle";
         }
-      );
+      )
+      .addCase(deleteTodoAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to delete todo";
+      });
   },
 });
 
