@@ -59,49 +59,32 @@ const TodoList = () => {
         onChange={(e) => setNewTodo(e.target.value)}
       />
       <button onClick={handleAddTodo}>Add Todo</button>
-      {edit ? (
-        <ul>
-          {todos.map((todo) => {
-            if (todo === edit) {
-              return (
-                <li key={todo.id}>
-                  <input
-                    type="text"
-                    value={edit.title}
-                    onChange={handleEditChange}
-                  />
-                  <button onClick={handleUpdateTodo}>Update Todo</button>
-                  <button onClick={() => setEdit(null)}>Cancel</button>
-                </li>
-              );
-            } else {
-              return (
-                <li key={todo.id}>
-                  {todo.title}
-                  <button onClick={() => handleToggleTodo(todo)}>
-                    {todo.completed ? "Mark Incomplete" : "Mark Complete"}
-                  </button>
-                  <button onClick={() => handleEditTodo(todo)}>Edit</button>
-                  <button onClick={() => handleDeleteTodo(todo)}>Delete</button>
-                </li>
-              );
-            }
-          })}
-        </ul>
-      ) : (
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>
-              {todo.title}
-              <button onClick={() => handleToggleTodo(todo)}>
-                {todo.completed ? "Mark Incomplete" : "Mark Complete"}
-              </button>
-              <button onClick={() => handleEditTodo(todo)}>Edit</button>
-              <button onClick={() => handleDeleteTodo(todo)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo === edit ? (
+              <>
+                <input
+                  type="text"
+                  value={edit.title}
+                  onChange={handleEditChange}
+                />
+                <button onClick={handleUpdateTodo}>Update Todo</button>
+                <button onClick={() => setEdit(null)}>Cancel</button>
+              </>
+            ) : (
+              <>
+                {todo.title}
+                <button onClick={() => handleToggleTodo(todo)}>
+                  {todo.completed ? "Mark Incomplete" : "Mark Complete"}
+                </button>
+                <button onClick={() => handleEditTodo(todo)}>Edit</button>
+                <button onClick={() => handleDeleteTodo(todo)}>Delete</button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
       <Link to="/completed">View Completed Todos</Link>
     </div>
   );
