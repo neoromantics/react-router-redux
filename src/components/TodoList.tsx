@@ -64,7 +64,7 @@ const TodoList = () => {
           if (!todo.completed) {
             return (
               <li key={todo.id}>
-                {todo === edit ? (
+                {todo.id === edit?.id ? (
                   <>
                     <input
                       type="text"

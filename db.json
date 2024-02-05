@@ -2,22 +2,12 @@
   "todos": [
     {
       "id": "7df0",
-      "title": "MAKE THE BED!",
+      "title": "Make the bed",
       "completed": false
     },
     {
       "id": "5f2f",
       "title": "Do the dishes",
-      "completed": false
-    },
-    {
-      "id": "8ea4",
-      "title": "fdsfsdfs.",
-      "completed": false
-    },
-    {
-      "id": "ff4d",
-      "title": "dfgfsg",
       "completed": false
     }
   ]
