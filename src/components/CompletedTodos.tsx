@@ -27,7 +27,7 @@ const CompletedTodos = () => {
           </li>
         ))}
       </ul>
-      <Link to="/">Back to Todos</Link>
+      <Link to="/">Back to Incompleted Todos</Link>
     </div>
   );
 };

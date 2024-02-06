@@ -11,12 +11,13 @@ import {
 } from "../redux/todosSlice";
 import { AppDispatch } from "../redux/store";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const TodoList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const todos = useSelector(selectTodos);
   const error = useSelector(selectTodoError);
-  const [newTodo, setNewTodo] = useState("");
+  const [newTodo, setNewTodo] = useState<string>("");
   const [edit, setEdit] = useState<Todo | null>(null);
 
   const handleAddTodo = () => {
@@ -25,11 +26,13 @@ const TodoList = () => {
       setNewTodo("");
     }
   };
-
+  //  pass ID
+  // passing reference is risky
   const handleToggleTodo = (todo: Todo) => {
     dispatch(toggleTodoAsync(todo));
   };
-
+  // Pure function is better
+  // (id, newTask) =>
   const handleUpdateTodo = () => {
     if (edit) {
       dispatch(updateTodoAsync(edit));
@@ -71,6 +74,7 @@ const TodoList = () => {
                       value={edit.title}
                       onChange={handleEditChange}
                     />
+                    {/* Pass an id and a new todo */}
                     <button onClick={handleUpdateTodo}>Update Todo</button>
                     <button onClick={() => setEdit(null)}>Cancel</button>
                   </>
@@ -91,7 +95,7 @@ const TodoList = () => {
           }
         })}
       </ul>
-      <Link to="/completed">View Completed Todos</Link>
+      <NavLink to="/completed">View Completed Todos</NavLink>
     </div>
   );
 };

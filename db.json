@@ -1,13 +1,8 @@
 {
   "todos": [
     {
-      "id": "7df0",
-      "title": "Make the bed",
-      "completed": false
-    },
-    {
       "id": "5f2f",
-      "title": "Do the dishes",
+      "title": "Do the dishes.",
       "completed": false
     }
   ]
